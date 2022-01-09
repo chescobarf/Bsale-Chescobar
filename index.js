@@ -13,8 +13,17 @@ const productURL = urlParams.get('product');
 const categoryURL = urlParams.get('category');
 const pathname = window.location.pathname
 
-//Components to Render.
 
+//Menu
+const boton = document.querySelector('#boton');
+const menu = document.querySelector('#menu');
+
+boton.addEventListener('click', () => {
+    console.log('click')
+    menu.classList.toggle('hidden')
+})
+
+//Components to Render.
 const renderProductPLP = (e) => {
     e.map((e) => {
         if (e.discount) {
@@ -106,9 +115,13 @@ const renderProductPLP = (e) => {
 }
 
 const renderCategory = (e) => (
-    `<a class="item border-orange-400 border-b-2 border-opacity-0 hover:border-opacity-100 transition-all uppercase" href = "category.html?category=${e.id}" >
+    // `<a class="item border-orange-400 border-b-2 border-opacity-0 hover:border-opacity-100 transition-all uppercase" href = "category.html?category=${e.id}" >
+    // ${e.name}
+    // </a> `
+    `<a href="category.html?category=${e.id}"
+    class="block mt-4 lg:inline-block lg:mt-0 text-white font-semibold transition-all border-b-2 border-opacity-0 border-white hover:border-opacity-100 capitalize">
     ${e.name}
-    </a> `
+    </a>`
 )
 const renderPDP = (e) => {
     const productName = document.querySelector('.product__details__container .product__name')
