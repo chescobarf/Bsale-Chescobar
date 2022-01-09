@@ -1356,6 +1356,14 @@ body {
 }
 
 @media (min-width: 640px) {
+  .sm\:flex {
+    display: flex;
+  }
+
+  .sm\:hidden {
+    display: none;
+  }
+
   .sm\:max-w-xl {
     max-width: 36rem;
   }
@@ -1474,6 +1482,10 @@ body {
 }
 
 @media (min-width: 1280px) {
+  .xl\:hidden {
+    display: none;
+  }
+
   .xl\:grid-cols-4 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
