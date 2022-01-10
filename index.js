@@ -5,6 +5,22 @@ const catalog = document.querySelector('.catalog')
 const categories = document.querySelector('.categories')
 const productListContainer = document.querySelector('.productListContainer')
 const spinner = document.querySelector('.spinner')
+const searchInput = document.querySelector(".search input")
+const searchButton = document.querySelector(".search button")
+
+
+
+//Event listener Search
+searchButton.addEventListener('click', (e) => {
+    const term = searchInput.value
+    fetchProductsByTerms(term)
+})
+searchInput.addEventListener('keyup', (e) => {
+    if (e.keyCode === 13) {
+        e.preventDefault();
+        searchButton.click();
+    }
+})
 
 //Use Params
 const URL = window.location.search
@@ -17,9 +33,8 @@ const pathname = window.location.pathname
 //Menu
 const boton = document.querySelector('#boton');
 const menu = document.querySelector('#menu');
-
 boton.addEventListener('click', () => {
-    console.log('click')
+    boton.classList.toggle('animate-pulse')
     menu.classList.toggle('hidden')
 })
 
@@ -113,7 +128,6 @@ const renderProductPLP = (e) => {
         }
     })
 }
-
 const renderCategory = (e) => (
     // `<a class="item border-orange-400 border-b-2 border-opacity-0 hover:border-opacity-100 transition-all uppercase" href = "category.html?category=${e.id}" >
     // ${e.name}
@@ -158,7 +172,6 @@ const renderPDP = (e) => {
     productDescription.classList.remove('animate-pulse', 'bg-gray-300', 'text-opacity-0')
     productSpecification.classList.remove('animate-pulse', 'bg-gray-300', 'text-opacity-0')
 }
-
 
 //Fetch Calls to API
 const fetchProducts = () => {
@@ -237,6 +250,32 @@ const fetchDetailProduct = () => {
             console.log(error)
         })
 }
+// Buscador
+const fetchProductsByTerms = (terms) => {
+    if (terms != '') {
+        fetch(`${urlAPI}products/search/${terms}`)
+            .then(res => {
+                if (!res.ok) {
+                    throw Error('Error in response')
+                }
+                return res.json()
+            })
+            .then(data => {
+                console.log(data)
+                catalog.classList.add('grid-cols-1', 'gap-y-10', 'sm:grid-cols-2', 'gap-x-6', 'lg:grid-cols-3', 'xl:grid-cols-4', 'xl:gap-x-8')
+                catalog.classList.remove('place-items-center')
+                spinner.classList.add('hidden')
+                catalog.innerHTML = ""
+                renderProductPLP(data)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    } else {
+        catalog.innerHTML = ""
+        fetchProducts()
+    }
+}
 
 // Reading urlParams to optimaze
 switch (pathname) {
@@ -257,4 +296,6 @@ switch (pathname) {
         fetchCategories()
         break;
 }
+
+
 
